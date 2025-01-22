@@ -1,0 +1,187 @@
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Roboto', sans-serif;
+           background-color: firebrick;
+           color: #333;
+           line-height: 1.6;
+       }
+
+           .contain {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               padding: 10px 20px;
+           }
+    
+           /* Header */
+           .header {
+               background-color: crimson;
+               border-bottom: 1px solid #ddd;
+           }
+    
+           .logo {
+               font-size: 1.5rem;
+               font-weight: bold;
+               color: greenyellow;
+               text-decoration: none;
+           }
+    
+           .back-btn {
+               background: none;
+               border: none;
+               font-size: 0.9rem;
+               cursor: pointer;
+               padding: 0.5rem 1rem;
+               background-color: #007bff;
+               color: #fff;
+               border: none;
+               border-radius: 5px;
+               transition: background-color 0.3s;
+           } 
+         
+           a.text-line {
+               text-decoration: none;
+               /* Remove the default underline */
+               color: white;
+               /* Set the text color */
+               font-weight: bold;
+               /* Make the text bold */
+               position: relative;
+               /* Enable positioning for pseudo-elements */
+    
+               /* Optional for better UX */
+               transition: color 0.3s ease, text-decoration 0.3s ease;
+           }
+
+           /* Add a custom underline effect */
+           a.text-line::after {
+               content: "";
+               /* Empty content for the pseudo-element */
+               position: absolute;
+               width: 100%;
+               /* Full width of the text */
+               height: 2px;
+               /* Thickness of the line */
+               bottom: -2px;
+               /* Position it slightly below the text */
+               left: 0;
+               /* Start from the beginning of the anchor */
+               background-color: #007bff;
+               /* Match the underline color with the text */
+               transform: scaleX(0);
+               /* Initially hide the line */
+               transform-origin: bottom right;
+               /* Animation start point */
+               transition: transform 0.3s ease;
+               /* Smooth animation */
+           }
+    
+           /* Hover state */
+           a.text-line:hover {
+               color: #0056b3;
+               /* Darker shade on hover */
+           }
+    
+           /* Show the underline on hover */
+           a.text-line:hover::after {
+               transform: scaleX(1);
+               /* Expand the line */
+               transform-origin: bottom left;
+               /* Animation end point */
+           }
+
+       header {
+           background-color: crimson;
+           color: #fff;
+           padding: 1rem 2rem;
+           text-align: center;
+           font-size: 1.5rem;
+           font-weight: bold;
+           position: sticky;
+           top: 0;
+           z-index: 1000;
+       }
+
+       .container {
+           max-width: 800px;
+           margin: 2rem auto;
+           padding: 1rem;
+           background: firebrick;
+           border-radius: 8px;
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       }
+
+       .notification {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           padding: 1rem;
+           margin-bottom: 1rem;
+           border: 1px solid #ddd;
+           border-radius: 5px;
+           background-color: crimson;
+           transition: background-color 0.3s;
+       }
+
+       .notification:hover {
+           background-color: #eef6ff;
+       }
+
+       .notification p {
+           margin: 0;
+           font-size: 1rem;
+       }
+
+       .notification .time {
+           font-size: 0.9rem;
+           color: #777;
+       }
+
+       .mark-read {
+           padding: 0.5rem 1rem;
+           background-color: #007bff;
+           color: #fff;
+           border: none;
+           border-radius: 5px;
+           cursor: pointer;
+           font-size: 0.9rem;
+           transition: background-color 0.3s;
+       }
+
+       .mark-read:hover {
+           background-color: #0056b3;
+       }
+
+       @media (max-width: 600px) {
+           .notification {
+               flex-direction: column;
+               align-items: flex-start;
+           }
+
+           .mark-read {
+               margin-top: 0.5rem;
+           }
+       } 
+
+       
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+

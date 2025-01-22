@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/notifications.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="contain">
+            <a href="/" class="logo">Notifications</a>
+            <button class="back-btn" onclick="history.back()">← Back</button>
+        </div>
+    </header>
+
+    <div class="container">
+       <!-- <div class="notification">
+            <p><strong>User123</strong> liked your post.</p>
+            <div>
+                <span class="time">2 hours ago</span>
+                <button class="mark-read">Mark as Read</button>
+            </div>
+        </div> -->                  
+        <% notifications.forEach(function(notification) { %>
+            <div class="notification"  data-id="<%= notification._id %>">
+                <p><a href="<%= notification.link %>" class="text-line">
+                        <%= notification.message %>
+                </a></p>
+                <div>
+                            <button class="mark-read">Mark as Read</button>
+                </div>
+            </div>
+            <% }); %>
+    </div>
+<script>
+    document.querySelectorAll('.mark-read').forEach(button => {
+        button.addEventListener('click', async function () {
+            const notificationDiv = this.closest('.notification');
+            const notificationId = notificationDiv.dataset.id;
+
+            try {
+                const response = await fetch(`/notifications/${notificationId}/mark-read`, {
+                    method: 'POST',
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    notificationDiv.remove(); // Remove notification from the page
+                } else {
+                    alert('Error marking notification as read');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    });
+</script> 
+</body>
+
+</html> 
+
+
+
+
+

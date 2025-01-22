@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/stylesheets/searchresults.css">
+</head>
+
+<body>
+    <header>
+        Search Results
+    </header>
+
+    <div class="container">
+        <% if (message) { %>
+            <p>
+                <%= message %>
+            </p>
+            <% } else { %>
+                <ul>
+                    <% users.forEach(user=> { %>
+                        <li>
+                            <a href="/user/<%= user._id %>/profile">
+                                <%= user.username %> - <%= user.fullname %>
+                            </a>
+                            <img src="/images/uploads/<%= user.profilePicture %>" alt="<%= user.username %>">
+                        </li>
+                        <% }); %>
+                </ul>
+                <% } %>
+    </div>
+
+    <div class="footer">
+        Back to Feed : <a href="/feed" class="btn btn-secondary mt-3">Back to Feed</a>
+    </div>
+</body>
+
+</html> 
+

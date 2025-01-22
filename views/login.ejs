@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <!--pinterest logo-->
+            <p class="header">Welcome to PixelShare!</p>
+            <% if (error.length > 0) { %>
+               <p><%= error %></p>
+            <% } %>
+            <form action="/login" method="post">
+                <input type="text" name="username" placeholder="username" class="detail" /><br />
+                <input type="password" name="password" placeholder="Password" class="detail" /><br />
+                <input type="submit" value="Login Acoount" class="btn int" />
+            </form>
+
+            <a href="/" class="btn int btn-like">Not yet on PixelShare?Sign Up</a>
+            <footer>
+                <p>
+                    Project created by :
+                    <b>Aditya Jugran</b>
+                </p>
+                <hr />
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

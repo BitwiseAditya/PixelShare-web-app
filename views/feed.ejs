@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Page</title>
+    <link rel="stylesheet" href="/stylesheets/feed.css">
+</head>
+<body>
+    <body>
+        
+        <header>
+            <h1>All Shared posts</h1>
+        </header>
+        <form action="/search" method="GET" class="mb-3">
+            <input type="text" name="query" placeholder="Search by username or fullname" class="form-control" required>
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+        <div class="back-to-profile">
+            <a href="/profile" class="profile-btn">My Profile</a>
+        </div>
+        <div class="container">
+    
+        <% if (posts.length> 0) { %>
+        <% posts.forEach((post)=> { %>
+            <div class="box">
+                <a href="/images/uploads/<%= post.image %>">
+                    <img src="/images/uploads/<%= post.image %>" alt="image"></a>
+                <div class="caption"><%= post.postText %> </div>
+                <p>Posted by: <a href="/user/<%= post.user._id %>/profile">
+                    <%= post.user.username %>
+                </a></p>
+
+                <form action="/post/<%= post._id %>/like" method="POST">
+                    <button type="submit" class="action-buttons">
+                        <%= post.likes.includes(user._id) ? 'Unlike' : 'Like' %> (<%= post.likes.length %>)
+                    </button>
+                </form>
+                
+                <a href="/post/<%= post._id %>/likes" class="action-buttons">View Likes</a>
+                <a href="/post/<%= post._id %>/comments" class="action-buttons">View Comments (<%= post.comments.length %>)</a>
+            </div>
+        <% }); %>
+        <% } else { %>
+        <p>No posts yet!</p>
+        <% } %>
+        </div>
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            <script src="app.js"></script>
+    </body>
+</body>
+</html>

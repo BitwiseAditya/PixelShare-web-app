@@ -1,0 +1,201 @@
+/* General reset and base styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ff1d58;
+    color: #1c1e21;
+}
+
+/* Navigation Bar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4267B2;
+}
+
+nav .lines {
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* Header Section */
+header {
+    text-align: center;
+    padding: 2rem 0;
+    background: rgb(251, 63, 250);
+    background: linear-gradient(90deg, rgba(251, 63, 250, 1) 0%, rgba(226, 49, 49, 1) 53%);
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* Search Bar */
+form {
+    max-width: 700px;
+    margin: 1.5rem auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+form input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+}
+
+form button {
+    background-color: #4267B2;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #365899;
+}
+
+/* Profile Button */
+.back-to-profile {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.back-to-profile a {
+    text-decoration: none;
+    background-color: #28a745;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-profile a:hover {
+    background-color: #218838;
+}
+
+/* Feed Container */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.box {
+    background-color: lightpink;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+}
+
+.box img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.box .caption {
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: crimson;
+    flex-grow: 1;
+}
+
+.box p {
+    padding: 0 1rem;
+    font-size: 1rem;
+    color: #555;
+    margin: 0.5rem 0;
+}
+
+.box a {
+    text-decoration: none;
+    color: #4267B2;
+    transition: color 0.3s ease;
+}
+
+.box a:hover {
+    color: #365899;
+}
+
+.action-buttons {
+    display: inline-block;
+    margin: 0.5rem 0.3rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f2f5;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons:hover {
+    background-color: #e4e6eb;
+}
+
+.box .button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+
+    form {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+} 
+
+
+
+
+
+

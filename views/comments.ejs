@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Comments</title>
+    <link rel="stylesheet" href="/stylesheets/comments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">Comments</a>
+            <button class="submit-btn" onclick="history.back()">← Back</button>
+        </div>
+    </header>
+
+    <main class="comments-page">
+        <section class="post-info">
+            <img src="/images/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+            <p class="post-caption">
+                <%= post.postText %>
+            </p>
+        </section>
+
+        <section class="comments-section">
+            <h2>Comments</h2>
+            <ul class="comments-list">
+                <!-- Comment Item -->
+                <% comments.forEach(function(comment) { %>
+                    <li class="comment-item">
+                        <img src="/images/uploads/<%= comment.user.profilePicture %>" alt="User Profile"
+                        class="profile-pic">
+                        <div class="comment-content">
+                            <h3 class="username">
+                                <%= comment.user.fullname %> - <a href="/user/<%= comment.user._id %>/profile">@<%=
+                                            comment.user.username %></a> 
+                            </h3>
+                            <p class="comment-text">
+                                <%= comment.text %>
+                            </p>
+                        </div>
+                    </li>
+                    <% }); %>
+            </ul>
+        </section>
+
+        <section class="add-comment">
+            <form action="/post/<%= post._id %>/comments" method="POST">
+                <textarea placeholder="Add a comment..." class="comment-input" name="commentText" required></textarea>
+                <button class="submit-btn" type="submit">Add Comment</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html> 
+
+
+
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/list.css">
+    <title>Follow List</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="filter-box">
+            <h1>Post Liked By :- </h1>
+            <ul id="authorList">
+                <% post.likes.forEach(user=> { %>
+                    <li class="author-item">
+                        <img src="/images/uploads/<%= user.profilePicture %>"
+                            alt="<%= user.username %>'s profile picture">
+                        <a href="/user/<%= user._id %>/profile">
+                            <span>
+                                <%= user.username %>
+                            </span>
+                        </a>
+                    </li>
+                    <% }); %>
+            </ul>
+            <button class="submit-btn" onclick="history.back()">← Back</button> 
+        </div>
+    </div>
+</body>
+
+</html> 
