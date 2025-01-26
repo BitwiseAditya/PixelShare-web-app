@@ -4,11 +4,26 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const plm = require('passport-local-mongoose'); 
 
-mongoose.connect('mongodb://localhost:27017/SharePins', {
+/*mongoose.connect('mongodb://localhost:27017/SharePins', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}); */
 
+/*mongoose.connect('mongodb+srv://adityajugranreal:lcEpphriNiXLKnUh@cluster0.rnhgr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});   */
+
+const dbURI = process.env.MONGO_URI;
+
+mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
+});
 
 const userSchema = new mongoose.Schema({
   username: {
