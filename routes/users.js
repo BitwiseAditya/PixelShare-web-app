@@ -9,11 +9,6 @@ const plm = require('passport-local-mongoose');
   useUnifiedTopology: true,
 }); */
 
-/*mongoose.connect('mongodb+srv://adityajugranreal:lcEpphriNiXLKnUh@cluster0.rnhgr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});   */
-
 const dbURI = process.env.MONGO_URI;
 
 mongoose.connect(dbURI, {
