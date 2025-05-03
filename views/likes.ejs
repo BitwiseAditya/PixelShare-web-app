@@ -15,8 +15,7 @@
             <ul id="authorList">
                 <% post.likes.forEach(user=> { %>
                     <li class="author-item">
-                        <img src="/images/uploads/<%= user.profilePicture %>"
-                            alt="<%= user.username %>'s profile picture">
+                        <img src="<%= user.profilePicture %>" alt="<%= user.username %>'s profile picture">
                         <a href="/user/<%= user._id %>/profile">
                             <span>
                                 <%= user.username %>
@@ -25,9 +24,9 @@
                     </li>
                     <% }); %>
             </ul>
-            <button class="submit-btn" onclick="history.back()">← Back</button> 
+            <button class="submit-btn" onclick="history.back()">← Back</button>
         </div>
     </div>
 </body>
 
-</html> 
+</html>

@@ -15,7 +15,7 @@
             <ul id="authorList">
                 <% user.follows.forEach(followingUser=> { %>
                     <li class="author-item">
-                        <img src="/images/uploads/<%= followingUser.profilePicture %>"
+                        <img src="<%= followingUser.profilePicture %>"
                             alt="<%= followingUser.username %>'s profile picture">
                         <a href="/user/<%= followingUser._id %>/profile">
                             <span>

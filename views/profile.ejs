@@ -14,7 +14,7 @@
     <div class="profile-container">
         <div class="header">
             <div class="profile-header">
-                <img src="/images/uploads/<%= user.profilePicture %>" alt="Profile Picture" class="profile-image">
+                <img src="<%= user.profilePicture %>" alt="Profile Picture" class="profile-image">
                 <div class="profile-info">
                     <h2>
                         <%= user.username %>
@@ -63,24 +63,25 @@
             <div class="user-posts container">
                 <h3>Your Posts</h3>
                 <div class="post-list box">
-                        <% user.posts.forEach((post)=> { %>
-                            <div class="post-item flex">
-                                <img src="/images/uploads/<%= post.image %>" class="card-img-top" alt="...">
-                                <div class="post-details">  
-                                    <p class="post-tagline">    
-                                        <%= post.postText %>
-                                    </p>
-                                    <!--            <a href="/deletePost" class="btn btn-primary">Delete Post</a> -->
-                                    <div class="post-actions"> 
+                    <% user.posts.forEach((post)=> { %>
+                        <div class="post-item flex">
+                            <img src="<%= post.image %>" class="card-img-top" alt="...">
+                            <div class="post-details">
+                                <p class="post-tagline">
+                                    <%= post.postText %>
+                                </p>
+                                <!--            <a href="/deletePost" class="btn btn-primary">Delete Post</a> -->
+                                <div class="post-actions">
                                     <form action="/post/<%= post._id %>/delete" method="POST">
                                         <button type="submit" class="btn-delete">Delete Post</button>
                                     </form>
                                     <a href="/post/<%= post._id %>/likes" class="btn-view-likes">View Likes</a>
-                                    <a href="/post/<%= post._id %>/comments" class="btn-comments">View Comments (<%= post.comments.length %>)</a>
+                                    <a href="/post/<%= post._id %>/comments" class="btn-comments">View Comments (<%=
+                                            post.comments.length %>)</a>
                                 </div>
                             </div>
-                            </div>
-                            <% }); %>
+                        </div>
+                        <% }); %>
                 </div>
             </div>
         </div>

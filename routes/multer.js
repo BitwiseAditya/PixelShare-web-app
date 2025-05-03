@@ -1,4 +1,4 @@
-const multer = require('multer');
+/*const multer = require('multer');
 const { v4 : uuidv4} = require('uuid'); 
 const path = require("path");
 
@@ -15,4 +15,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage : storage});
 
-module.exports = upload;    
+module.exports = upload;    */
+
+const multer = require('multer');
+const { storage } = require('../utils/cloudinary'); // adjust path as needed
+
+const upload = multer({ storage });
+
+module.exports = upload;
+

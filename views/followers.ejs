@@ -17,8 +17,7 @@
             <ul id="authorList">
                 <% user.followedBy.forEach(follower=> { %>
                     <li class="author-item">
-                        <img src="/images/uploads/<%= follower.profilePicture %>"
-                            alt="<%= follower.username %>'s profile picture">
+                        <img src="<%= follower.profilePicture %>" alt="<%= follower.username %>'s profile picture">
                         <a href="/user/<%= follower._id %>/profile">
                             <span>
                                 <%= follower.username %>
@@ -27,9 +26,9 @@
                     </li>
                     <% }); %>
             </ul>
-            <button class="submit-btn" onclick="history.back()">← Back</button> 
+            <button class="submit-btn" onclick="history.back()">← Back</button>
         </div>
     </div>
 </body>
 
-</html> 
+</html>

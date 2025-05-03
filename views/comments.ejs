@@ -19,7 +19,7 @@
 
     <main class="comments-page">
         <section class="post-info">
-            <img src="/images/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+            <img src="<%= post.image %>" alt="Post Image" class="post-image">
             <p class="post-caption">
                 <%= post.postText %>
             </p>
@@ -31,12 +31,11 @@
                 <!-- Comment Item -->
                 <% comments.forEach(function(comment) { %>
                     <li class="comment-item">
-                        <img src="/images/uploads/<%= comment.user.profilePicture %>" alt="User Profile"
-                        class="profile-pic">
+                        <img src="<%= comment.user.profilePicture %>" alt="User Profile" class="profile-pic">
                         <div class="comment-content">
                             <h3 class="username">
                                 <%= comment.user.fullname %> - <a href="/user/<%= comment.user._id %>/profile">@<%=
-                                            comment.user.username %></a> 
+                                            comment.user.username %></a>
                             </h3>
                             <p class="comment-text">
                                 <%= comment.text %>
@@ -56,9 +55,4 @@
     </main>
 </body>
 
-</html> 
-
-
-
-
-
+</html>

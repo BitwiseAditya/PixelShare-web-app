@@ -1,55 +1,55 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('./users');
-var postModel = require('./posts'); 
-var passport = require('passport'); 
+var postModel = require('./posts');
+var passport = require('passport');
 var localStrategy = require('passport-local');
-var flash = require('connect-flash'); 
-var upload = require('./multer'); 
+var flash = require('connect-flash');
+var upload = require('./multer');
 var commentModel = require('./comments');
 var notificationModel = require('./notifications');
 
-passport.use(new localStrategy(userModel.authenticate())); 
+passport.use(new localStrategy(userModel.authenticate()));
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index');
-}); 
-
-router.get('/login', function(req, res, next) {
-  res.render('login', {error : req.flash('error')});    
 });
 
-router.get('/feed', isLoggedIn, async function(req, res, next) {
+router.get('/login', function (req, res, next) {
+  res.render('login', { error: req.flash('error') });
+});
+
+router.get('/feed', isLoggedIn, async function (req, res, next) {
   const posts = await postModel.find().populate('user');
   const user = await userModel.findById(req.user._id);
-  res.render('feed' , {posts , user});    
+  res.render('feed', { posts, user });
 });
 
 
-router.post('/upload', isLoggedIn, upload.single('file'), async function(req,res,next){
-   if(!req.file){
-     return res.status(400).send('No files were uploaded.');  
-   }
-   const user = await userModel.findOne({ username: req.session.passport.user }); 
-   const postData = await postModel.create({
-    postText : req.body.filecaption,
-    image : req.file.filename,  
-    user : user._id,  
-   })
-    
-    user.posts.push(postData._id); 
-    await user.save();  
+router.post('/upload', isLoggedIn, upload.single('file'), async function (req, res, next) {
+  if (!req.file) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  const postData = await postModel.create({
+    postText: req.body.filecaption,
+    image: req.file.path,
+    user: user._id,
+  })
+
+  user.posts.push(postData._id);
+  await user.save();
 
   for (const follower of user.followedBy) {
     await notificationModel.create({
-        recipient: follower,
-        message: `${user.fullname} (@${user.username}) uploaded a new post.`,
-        link: `/user/${user._id}/profile`
-      });
+      recipient: follower,
+      message: `${user.fullname} (@${user.username}) uploaded a new post.`,
+      link: `/user/${user._id}/profile`
+    });
   }
-    res.redirect('/profile'); 
+  res.redirect('/profile');
 });
 
 router.post('/post/:id/like', isLoggedIn, async function (req, res, next) {
@@ -76,20 +76,20 @@ router.post('/post/:id/like', isLoggedIn, async function (req, res, next) {
       });
     }
     const referer = req.get('Referer');
-    res.redirect(referer || '/feed');   
+    res.redirect(referer || '/feed');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error liking post.');
   }
-}); 
-
-router.get('/user/:id/profile', isLoggedIn, async (req, res) => {
-  const user = await userModel.findById(req.params.id).populate('posts'); 
-  const currentUser = await userModel.findById(req.user._id);
-  res.render('userProfile', { user , currentUser });  
 });
 
-router.post('/post/:id/delete', isLoggedIn, async function(req, res, next) {
+router.get('/user/:id/profile', isLoggedIn, async (req, res) => {
+  const user = await userModel.findById(req.params.id).populate('posts');
+  const currentUser = await userModel.findById(req.user._id);
+  res.render('userProfile', { user, currentUser });
+});
+
+router.post('/post/:id/delete', isLoggedIn, async function (req, res, next) {
   try {
     const postId = req.params.id;
     const user = await userModel.findOne({ username: req.session.passport.user });
@@ -225,15 +225,15 @@ router.post('/user/:id/follow', isLoggedIn, async (req, res) => {
 
   await currentUser.save();
   await userToFollow.save();
-    if (!(userToFollow._id===currentUser._id) && userToFollow.followedBy.includes(currentUser._id)) {  
-      await notificationModel.create({
-        recipient: userToFollow._id,
-        message: `${currentUser.fullname} (@${currentUser.username}) followed you.`,   
-        link: `/user/${currentUser._id}/profile`
-      });
-    }
+  if (!(userToFollow._id === currentUser._id) && userToFollow.followedBy.includes(currentUser._id)) {
+    await notificationModel.create({
+      recipient: userToFollow._id,
+      message: `${currentUser.fullname} (@${currentUser.username}) followed you.`,
+      link: `/user/${currentUser._id}/profile`
+    });
+  }
   res.redirect(`/user/${userToFollow._id}/profile`);
-});   
+});
 
 // List of users the logged-in user follows
 router.get('/profile/following', isLoggedIn, async (req, res) => {
@@ -260,12 +260,12 @@ router.get('/profile/:id/followers', isLoggedIn, async (req, res) => {
 });
 
 
-router.get('/profile', isLoggedIn, async function(req, res, next) {
+router.get('/profile', isLoggedIn, async function (req, res, next) {
   const user = await userModel.findOne({
     username: req.session.passport.user
   }).populate('posts');
-   const notifications = await notificationModel.find({ user: req.user._id }).sort({ createdAt: -1 });
-  res.render('profile', {user , notifications});  
+  const notifications = await notificationModel.find({ user: req.user._id }).sort({ createdAt: -1 });
+  res.render('profile', { user, notifications });
 });
 
 router.post('/profile/update-tagline', isLoggedIn, async function (req, res, next) {
@@ -293,7 +293,7 @@ router.post('/profile/upload-picture', isLoggedIn, upload.single('profilePicture
     const user = await userModel.findById(req.user._id);
 
     // Update the user's profile picture
-    user.profilePicture = req.file.filename;
+    user.profilePicture = req.file.path;
     await user.save();
 
     res.redirect('/profile');
@@ -304,27 +304,27 @@ router.post('/profile/upload-picture', isLoggedIn, upload.single('profilePicture
 });
 
 
-router.post('/register', async function(req, res, next) {
+router.post('/register', async function (req, res, next) {
   const userData = await new userModel({
     username: req.body.username,
-    email: req.body.email,  
-    fullname: req.body.fullname,  
+    email: req.body.email,
+    fullname: req.body.fullname,
   })
-  userModel.register(userData, req.body.password).then(function(){
-    passport.authenticate('local')(req, res, function() {
+  userModel.register(userData, req.body.password).then(function () {
+    passport.authenticate('local')(req, res, function () {
       res.redirect('/profile');
+    });
   });
-});
 });
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/profile',
   failureRedirect: '/',
-  failiureFlash: true 
-}), function(req, res) {});  
+  failiureFlash: true
+}), function (req, res) { });
 
-router.get('/logout', function(req, res) {
-   req.logout(function(err) {
+router.get('/logout', function (req, res) {
+  req.logout(function (err) {
     if (err) { return next(err); }
     res.redirect('/');
   });
@@ -335,6 +335,9 @@ function isLoggedIn(req, res, next) {
     return next();
   }
   res.redirect('/');
-} 
+}
 
 module.exports = router;
+
+
+
