@@ -145,7 +145,7 @@ router.get('/post/:id/comments', isLoggedIn, async (req, res) => {
   try {
     const post = await postModel.findById(req.params.id).populate('comments');
     const comments = await commentModel.find({ post: post._id }).populate('user');
-    res.render('comments', { post, comments });
+    res.render('comments', { post, comments , user: req.user });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching comments.');
