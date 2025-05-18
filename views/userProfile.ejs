@@ -63,12 +63,18 @@
                                 </p>
                                 <!--            <a href="/deletePost" class="btn btn-primary">Delete Post</a> -->
                                 <div class="post-actions">
-                                    <form action="/post/<%= post._id %>/like" method="POST">
+                                       <!--  <form action="/post/<%= post._id %>/like" method="POST">
                                         <button type="submit" class="btn-delete">
                                             <%= post.likes.includes(currentUser._id) ? 'Unlike' : 'Like' %> (<%=
                                                     post.likes.length %>)
                                         </button>
-                                    </form>
+                                    </form> -->
+                                    <button class="like-btn btn-delete" data-post-id="<%= post._id %>">
+                                        <%= post.likes.includes(currentUser._id) ? 'Unlike' : 'Like' %> (<span
+                                                id="like-count-<%= post._id %>">
+                                                <%= post.likes.length %>
+                                            </span>)
+                                    </button>
                                     <a href="/post/<%= post._id %>/likes" class="btn-view-likes">View Likes (<%=
                                             post.likes.length %>)</a>
                                     <a href="/post/<%= post._id %>/comments" class="btn-comments">View Comments (<%=
@@ -84,6 +90,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const postId = button.dataset.postId;
+
+                const res = await fetch(`/post/${postId}/like`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    const countSpan = document.getElementById(`like-count-${postId}`);
+                    countSpan.textContent = data.newLikeCount;
+                    button.innerHTML = (data.liked ? 'Unlike' : 'Like') + ` (<span id="like-count-${postId}">${data.newLikeCount}</span>)`;
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
