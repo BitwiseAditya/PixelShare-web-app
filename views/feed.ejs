@@ -36,11 +36,17 @@
                                 <%= post.user.username %>
                             </a></p>
 
-                        <form action="/post/<%= post._id %>/like" method="POST">
+                         <!-- <form action="/post/<%= post._id %>/like" method="POST">
                             <button type="submit" class="action-buttons">
                                 <%= post.likes.includes(user._id) ? 'Unlike' : 'Like' %> (<%= post.likes.length %>)
                             </button>
-                        </form>
+                        </form>-->
+                        <button class="like-btn action-buttons" data-post-id="<%= post._id %>">
+                            <%= post.likes.includes(user._id) ? 'Unlike' : 'Like' %> (<span
+                                    id="like-count-<%= post._id %>">
+                                    <%= post.likes.length %>
+                                </span>)
+                        </button>
 
                         <a href="/post/<%= post._id %>/likes" class="action-buttons">View Likes</a>
                         <a href="/post/<%= post._id %>/comments" class="action-buttons">View Comments (<%=
@@ -53,6 +59,26 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="app.js"></script>
+        <script>
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const postId = button.dataset.postId;
+
+                    const res = await fetch(`/post/${postId}/like`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        const countSpan = document.getElementById(`like-count-${postId}`);
+                        countSpan.textContent = data.newLikeCount;
+                        button.innerHTML = (data.liked ? 'Unlike' : 'Like') + ` (<span id="like-count-${postId}">${data.newLikeCount}</span>)`;
+                    }
+                });
+            });
+        </script>
+     
     </body>
 </body>
 
