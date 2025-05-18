@@ -46,13 +46,57 @@
             </ul>
         </section>
 
-        <section class="add-comment">
-            <form action="/post/<%= post._id %>/comments" method="POST">
+     <section class="add-comment">
+            <!--<form action="/post/<%= post._id %>/comments" method="POST">
+                <textarea placeholder="Add a comment..." class="comment-input" name="commentText" required></textarea>
+                <button class="submit-btn" type="submit">Add Comment</button>
+            </form>-->
+            <form id="comment-form">
                 <textarea placeholder="Add a comment..." class="comment-input" name="commentText" required></textarea>
                 <button class="submit-btn" type="submit">Add Comment</button>
             </form>
         </section>
     </main>
+    <script>
+        const commentForm = document.getElementById('comment-form');
+        const commentList = document.getElementById('comments-list');
+        const postId = "<%= post._id %>";
+
+        commentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(commentForm);
+            const commentText = formData.get('commentText').trim();
+
+            if (!commentText) return;
+
+            const res = await fetch(`/post/${postId}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ commentText })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                const newComment = document.createElement('li');
+                newComment.classList.add('comment-item');
+                newComment.innerHTML = `
+                  <img src="<%= user.profilePicture %>" alt="User Profile" class="profile-pic" />
+                  <div class="comment-content">
+                    <h3 class="username">
+                      <%= user.fullname %> - <a href="/user/<%= user._id %>/profile">@<%= user.username %></a>
+                    </h3>
+                    <p class="comment-text">${data.comment.text}</p>
+                  </div>
+                `;
+                commentList.appendChild(newComment);
+                commentForm.reset();
+            }
+        });
+    </script>
+
 </body>
 
 </html>
