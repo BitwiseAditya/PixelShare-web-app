@@ -75,8 +75,13 @@ router.post('/post/:id/like', isLoggedIn, async function (req, res, next) {
         link: `/post/${post._id}/likes`
       });
     }
-    const referer = req.get('Referer');
-    res.redirect(referer || '/feed');
+    /*const referer = req.get('Referer');
+    res.redirect(referer || '/feed'); */
+      res.json({
+      success: true,
+      liked: !post.likes.includes(userId), // true if liked, false if unliked
+      newLikeCount: post.likes.length
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error liking post.');
@@ -168,7 +173,18 @@ router.post('/post/:id/comments', isLoggedIn, async (req, res) => {
       });
     }
 
-    res.redirect(`/post/${post._id}/comments`);
+    /*res.redirect(`/post/${post._id}/comments`);*/
+    
+    res.json({
+      success: true,
+      comment: {
+        text: comment.text,
+        user: {
+          username: req.user.username
+        }
+      }
+    });
+    
   } catch (err) {
     console.error(err);
     res.status(500).send('Error adding comment.');
