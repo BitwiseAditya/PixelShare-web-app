@@ -79,7 +79,7 @@ router.post('/post/:id/like', isLoggedIn, async function (req, res, next) {
     res.redirect(referer || '/feed'); */
       res.json({
       success: true,
-      liked: !post.likes.includes(userId), // true if liked, false if unliked
+      liked: post.likes.includes(userId), // true if liked, false if unliked
       newLikeCount: post.likes.length
     });
   } catch (err) {
