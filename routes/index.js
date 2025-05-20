@@ -228,6 +228,7 @@ router.get('/post/:id/likes', isLoggedIn, async function (req, res, next) {
 
 // Follow/unfollow a user
 router.post('/user/:id/follow', isLoggedIn, async (req, res) => {
+  try{
   const userToFollow = await userModel.findById(req.params.id);
   const currentUser = await userModel.findById(req.user._id);
 
@@ -248,7 +249,17 @@ router.post('/user/:id/follow', isLoggedIn, async (req, res) => {
       link: `/user/${currentUser._id}/profile`
     });
   }
-  res.redirect(`/user/${userToFollow._id}/profile`);
+  /* res.redirect(`/user/${userToFollow._id}/profile`); */ 
+   res.json({
+      success: true,
+      following: currentUser.follows.includes(userToFollow._id),
+      newFollowerCount: userToFollow.followedBy.length
+    });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error toggling follow status.' });
+  }
 });
 
 // List of users the logged-in user follows
