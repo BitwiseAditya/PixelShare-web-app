@@ -38,15 +38,25 @@
             </form>
 
             <!-- Button to redirect to the list of followers -->
-            <form action="/profile/<%= user._id %>/followers" method="GET" style="display: inline;">
+            <!--<form action="/profile/<%= user._id %>/followers" method="GET" style="display: inline;">
                 <button type="submit" class="btn-followers">Followers (<%= user.followedBy.length %>)</button>
+            </form>-->
+             <form action="/profile/<%= user._id %>/followers" method="GET" style="display: inline;">
+                <button type="submit" class="btn-followers">
+                    Followers (<span id="follower-count">
+                        <%= user.followedBy.length %>
+                    </span>)
+                </button>
             </form>
 
-            <form action="/user/<%= user._id %>/follow" method="POST">
+            <!--<form action="/user/<%= user._id %>/follow" method="POST">
                 <button type="submit" class="btn-notifications">
                     <%= user.followedBy.includes(currentUser._id) ? 'Unfollow' : 'Follow' %>
                 </button>
-            </form>
+            </form>-->
+              <button id="follow-btn" class="btn-notifications" data-user-id="<%= user._id %>">
+                <%= user.followedBy.includes(currentUser._id) ? 'Unfollow' : 'Follow' %>
+            </button>
         </div>
         <div class="main-content">
             <div class="user-posts container">
@@ -108,6 +118,33 @@
                 }
             });
         });
+
+      const followBtn = document.getElementById('follow-btn');
+
+        if (followBtn) {
+            followBtn.addEventListener('click', async () => {
+                const userId = followBtn.dataset.userId;
+
+                const res = await fetch(`/user/${userId}/follow`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    followBtn.textContent = data.following ? 'Unfollow' : 'Follow';
+                    // Update follower count if the span exists
+                    const followerCountSpan = document.getElementById('follower-count');
+                    if (followerCountSpan) {
+                        followerCountSpan.textContent = data.newFollowerCount;
+                    }
+                }
+            });
+        }
+
     </script>
 
 </body>
