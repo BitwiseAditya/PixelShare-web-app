@@ -103,7 +103,7 @@ router.post('/post/:id/delete', isLoggedIn, async function (req, res, next) {
     const post = await postModel.findOne({ _id: postId, user: user._id });
 
     if (!post) {
-      return res.status(403).send('Unauthorized: You can only delete your own posts.');
+      return res.status(403).json({ success: false, message: 'Unauthorized' });
     }
 
     // Delete the post
@@ -113,10 +113,12 @@ router.post('/post/:id/delete', isLoggedIn, async function (req, res, next) {
     user.posts.pull(postId);
     await user.save();
 
-    res.redirect('/profile'); // Redirect to profile after deletion
+    /*res.redirect('/profile');*/ // Redirect to profile after deletion
+    res.json({ success: true, postId: postId });
+    
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error deleting post.');
+   console.error(err);
+   res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
